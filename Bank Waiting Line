@@ -1,0 +1,115 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Queue
+{
+private:
+    string names[100];
+    int front;
+    int rear;
+
+public:
+    Queue()
+    {
+        front = 0;
+        rear = -1;
+    }
+
+    void enqueue(string name)
+    {
+        if (rear == 99)
+        {
+            cout << "Queue is full\n";
+            return;
+        }
+
+        rear++;
+        names[rear] = name;
+    }
+
+    string dequeue()
+    {
+        if (isEmpty())
+            return "";
+
+        string name = names[front];
+        front++;
+        return name;
+    }
+
+    bool isEmpty()
+    {
+        return front > rear;
+    }
+
+    void show()
+    {
+        if (isEmpty())
+        {
+            cout << "No customers waiting\n";
+            return;
+        }
+
+        cout << "Waiting: ";
+        for (int i = front; i <= rear; i++)
+        {
+            cout << names[i];
+            if (i != rear)
+                cout << ", ";
+        }
+        cout << endl;
+    }
+};
+
+int main()
+{
+    Queue q;
+    int choice;
+    string name;
+
+    do
+    {
+        cout << "\n1. New Customer\n";
+        cout << "2. Serve Next\n";
+        cout << "3. Show Line\n";
+        cout << "0. Exit\n";
+        cout << "Choice: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice)
+        {
+        case 1:
+            cout << "Customer Name: ";
+            getline(cin, name);
+            q.enqueue(name);
+            break;
+
+        case 2:
+            if (q.isEmpty())
+            {
+                cout << "No customers waiting\n";
+            }
+            else
+            {
+                cout << "Now serving: " << q.dequeue() << endl;
+            }
+            break;
+
+        case 3:
+            q.show();
+            break;
+
+        case 0:
+            cout << "Good Bye\n";
+            break;
+
+        default:
+            cout << "Invalid Choice\n";
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
